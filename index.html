@@ -3,183 +3,247 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Төрсөн өдрийн урилга</title>
+<title>Чойлзгоны төрсөн өдөр 🎀</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
 <style>
-/* Light = бүрэнхий, Dark = гүн шөнө */
 :root{
-  --sky-top:#2b3474; --sky-mid:#6a4e9c; --sky-low:#d98f9f;
-  --hill1:#3a2f68; --hill2:#221f4a; --ger:#1a1838;
-  --glow:#ffcf5a; --ink:#fbf8ff; --ink-soft:#d9d1f5; --line:rgba(251,248,255,.2);
-  --btn-ink:#2a1d45; --cake:#f2c4de; --frost:#fff3fa; --stripe:#8b6fd6;
-  color-scheme: dark;
+  --bg:#fff0f5; --ging:rgba(255,160,190,.26);
+  --card:#ffffff; --ink:#7a1d45; --ink-soft:#b0567f;
+  --pink:#ff9fbf; --pink-deep:#ff5c93; --cherry:#e8335a;
+  --box:#ffc2d5; --lid:#ffb0c8; --ribbon:#ff5c93; --ribbon-dark:#e0407a;
+  --line:rgba(122,29,69,.14); --foil1:#f7bcd1; --foil2:#fde8f0;
+  color-scheme: light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --sky-top:#0f1438; --sky-mid:#2a2160; --sky-low:#5b3a7c;
-    --hill1:#221c47; --hill2:#14132f; --ger:#0c0b22;
-    --ink-soft:#bdb6e6; --line:rgba(243,239,255,.16);
+    --bg:#2a1020; --ging:rgba(255,143,179,.09);
+    --card:#3b1730; --ink:#ffe3ee; --ink-soft:#e7a6c2;
+    --box:#ff9fbf; --lid:#ff8db3; --line:rgba(255,227,238,.18);
+    --foil1:#c86f95; --foil2:#e9a2c0; color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
-  --sky-top:#0f1438; --sky-mid:#2a2160; --sky-low:#5b3a7c;
-  --hill1:#221c47; --hill2:#14132f; --ger:#0c0b22;
-  --ink-soft:#bdb6e6; --line:rgba(243,239,255,.16);
+  --bg:#2a1020; --ging:rgba(255,143,179,.09);
+  --card:#3b1730; --ink:#ffe3ee; --ink-soft:#e7a6c2;
+  --box:#ff9fbf; --lid:#ff8db3; --line:rgba(255,227,238,.18);
+  --foil1:#c86f95; --foil2:#e9a2c0; color-scheme: dark;
 }
 *,*::before,*::after{box-sizing:inherit}
-html{background:var(--sky-top);scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--hill2);color:var(--ink);font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font-family:Comfortaa,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;
+  background-color:var(--bg);
+  background-image:linear-gradient(90deg,var(--ging) 50%,transparent 50%),linear-gradient(var(--ging) 50%,transparent 50%);
+  background-size:44px 44px;-webkit-font-smoothing:antialiased}
+.script{font-family:Pacifico,"Brush Script MT",cursive;font-weight:400}
 
-.hero{position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;
-  background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 55%,var(--sky-low) 82%);
-  touch-action:none;user-select:none;-webkit-user-select:none}
-.hero.done{touch-action:pan-y}
-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* ---------- Нүүр ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:1.5rem;overflow:hidden}
+.stage{display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center}
+.kicker{font-family:Pacifico,cursive;font-size:clamp(1.7rem,7vw,2.4rem);margin:0;line-height:1.3}
+.tip{margin:0;color:var(--ink-soft);font-weight:700;font-size:1rem;min-height:1.6em}
+.kicker,.tip{transition:opacity .5s ease}
+.hero.open .kicker,.hero.open .tip{opacity:0}
 
-.hint,.title{position:absolute;left:50%;top:27%;transform:translateX(-50%);width:min(92%,40rem);text-align:center;pointer-events:none;transition:opacity .9s ease,transform .9s ease}
-.hint h1{font-family:Unbounded,Manrope,sans-serif;font-weight:600;font-size:clamp(1.35rem,5.4vw,2.2rem);line-height:1.2;margin:0 0 .6rem;letter-spacing:-.01em}
-.hint p{margin:0;color:var(--ink-soft);font-size:clamp(.95rem,3.6vw,1.1rem)}
-.hint .left{margin-top:.9rem;font-weight:700;color:var(--glow)}
-.hero.done .hint{opacity:0;transform:translate(-50%,-12px)}
+.gift{background:none;border:0;padding:0;cursor:pointer;width:min(70vw,290px);-webkit-tap-highlight-color:transparent;
+  transition:transform .6s ease .55s,opacity .5s ease .6s;border-radius:24px}
+.gift:focus-visible{outline:3px dashed var(--pink-deep);outline-offset:6px}
+.gift svg{display:block;width:100%;height:auto;overflow:visible}
+.bob{animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.gift.shake{animation:shake .45s ease}
+@keyframes shake{20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+.hero.open .gift{transform:translateY(50px) scale(.8);opacity:0;pointer-events:none}
 
-.title{opacity:0;transform:translate(-50%,16px)}
-.hero.done .title{opacity:1;transform:translate(-50%,0);transition-delay:.25s}
-.title .wish{margin:0 0 .4rem;color:var(--ink-soft);font-size:clamp(.95rem,3.6vw,1.1rem)}
-.title .name{font-family:Unbounded,Manrope,sans-serif;font-weight:800;font-size:clamp(2.8rem,13vw,6rem);line-height:.95;margin:0;letter-spacing:-.03em;
-  text-shadow:0 0 28px rgba(255,207,90,.35)}
-.title .age{font-family:Unbounded,Manrope,sans-serif;font-weight:400;font-size:clamp(1rem,4.2vw,1.5rem);margin:.7rem 0 0}
-.title .age b{color:var(--glow);font-weight:800}
+.g-box{fill:var(--box)} .g-lid{fill:var(--lid)} .g-rib{fill:var(--ribbon)} .g-rib2{fill:var(--ribbon-dark)}
+.g-dot{fill:#fff;opacity:.6} .g-shadow{fill:rgba(180,40,90,.15)}
+.lid{transform-box:fill-box;transform-origin:50% 100%;transition:transform .9s cubic-bezier(.3,1.5,.5,1),opacity .5s ease .45s}
+.hero.open .lid{transform:translate(40px,-190px) rotate(24deg);opacity:0}
+.bow{transform-box:fill-box;transform-origin:50% 80%;transition:transform .3s ease;
+  transform:rotate(calc(var(--loose,0)*7deg)) scale(calc(1 + var(--loose,0)*.07))}
 
-.cue{position:absolute;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);opacity:0;pointer-events:none;transition:opacity .8s ease 1.2s}
-.hero.done .cue{opacity:1;pointer-events:auto}
-.btn{font:inherit;font-weight:700;font-size:1rem;border:0;border-radius:999px;padding:.85rem 1.5rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px}
-.btn-gold{background:var(--glow);color:var(--btn-ink);box-shadow:0 6px 24px rgba(255,207,90,.35)}
-.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
-.btn:focus-visible,a:focus-visible{outline:3px solid var(--glow);outline-offset:3px}
+.card{position:absolute;left:50%;top:50%;width:min(88vw,25rem);text-align:center;
+  background:var(--card);border-radius:32px;padding:2.6rem 1.6rem 2rem;
+  box-shadow:0 24px 60px rgba(200,60,110,.25);outline:2px dashed var(--pink);outline-offset:-11px;
+  transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;
+  transition:transform .75s cubic-bezier(.2,1.5,.4,1) .6s,opacity .4s ease .6s}
+.hero.open .card{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
+.card .mini-bow{width:64px;margin:-4.4rem auto .6rem;display:block}
+.card .pre{margin:0;color:var(--ink-soft);font-weight:700}
+.card .name{font-size:clamp(2.6rem,12vw,3.6rem);line-height:1.25;margin:.2rem 0 .3rem;color:var(--pink-deep)}
+.card .age{margin:0 0 1rem;font-weight:700;font-size:1.1rem}
+.num{display:inline-grid;place-items:center;width:2.3em;height:2.3em;border-radius:50%;background:var(--pink-deep);color:#fff;
+  transform:rotate(-8deg);margin-right:.3rem;font-size:1.15em}
+.card .msg{margin:0 auto 1.5rem;max-width:20rem;font-size:1rem}
 
-.invite{padding:4.5rem 1.25rem 3rem;background:var(--hill2)}
-.invite[hidden]{display:none}
-.wrap{max-width:34rem;margin:0 auto}
-.invite h2{font-family:Unbounded,Manrope,sans-serif;font-weight:600;font-size:clamp(1.6rem,6vw,2.3rem);line-height:1.15;margin:0 0 1rem;letter-spacing:-.01em}
-.lead{color:var(--ink-soft);font-size:1.08rem;margin:0 0 2.2rem;max-width:30rem}
+.btn{font:inherit;font-weight:700;font-size:1rem;border:0;border-radius:999px;padding:.85rem 1.6rem;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;-webkit-tap-highlight-color:transparent}
+.btn-pink{background:var(--pink-deep);color:#fff;box-shadow:0 8px 22px rgba(255,92,147,.4)}
+.btn-soft{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 2px var(--pink)}
+.btn:focus-visible,a:focus-visible{outline:3px dashed var(--pink-deep);outline-offset:4px}
 
-dl{margin:0 0 2.8rem;display:grid;grid-template-columns:7.5rem 1fr}
-dt,dd{padding:1rem 0;border-top:1px solid var(--line);margin:0}
-dt{color:var(--ink-soft);font-size:.95rem}
-dd{font-weight:500;font-size:1.05rem}
-dd small{display:block;color:var(--ink-soft);font-weight:400;font-size:.95rem}
-dd a{color:var(--glow);font-weight:700;font-size:.95rem;text-underline-offset:3px}
-@media (max-width:380px){dl{grid-template-columns:1fr}dd{border-top:0;padding-top:0}}
+/* ---------- Дэлгэрэнгүй ---------- */
+.details{padding:1rem 1.25rem 3rem}
+.details[hidden]{display:none}
+.wrap{max-width:30rem;margin:0 auto;display:flex;flex-direction:column;gap:1.4rem}
+.panel{background:var(--card);border-radius:28px;padding:1.8rem 1.5rem;box-shadow:0 10px 30px rgba(200,60,110,.12)}
+.panel h2{font-family:Pacifico,cursive;font-weight:400;font-size:1.8rem;margin:0 0 .3rem;color:var(--pink-deep);line-height:1.3}
+.panel p{margin:0}
+.soft{color:var(--ink-soft);font-size:.95rem}
 
-.count{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:0 0 3rem;text-align:center}
-.count div{padding:1rem .25rem;border-radius:18px;background:rgba(255,255,255,.05)}
-.count b{display:block;font-family:Unbounded,Manrope,sans-serif;font-weight:600;font-size:clamp(1.5rem,7vw,2.3rem);font-variant-numeric:tabular-nums;line-height:1.1}
-.count span{color:var(--ink-soft);font-size:.85rem}
-.count.today{display:block;font-family:Unbounded,Manrope,sans-serif;font-size:1.4rem;color:var(--glow)}
+.scratch{position:relative;margin-top:1.1rem;height:170px;border-radius:22px;overflow:hidden;
+  display:grid;place-items:center;text-align:center;background:var(--bg);border:2px dashed var(--pink)}
+.scratch .date{font-weight:700;font-size:1.35rem;line-height:1.3}
+.scratch .date b{display:block;font-family:Pacifico,cursive;font-weight:400;font-size:2.4rem;color:var(--cherry)}
+.scratch canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity .7s ease}
 
-.rsvp h3{font-family:Unbounded,Manrope,sans-serif;font-weight:600;font-size:1.3rem;margin:0 0 1rem}
-.rsvp .row{display:flex;flex-wrap:wrap;gap:.75rem}
-.rsvp .row .btn{flex:1 1 12rem}
-.rsvp p{color:var(--ink-soft);margin:1rem 0 0;font-size:.95rem}
-.rsvp p a{color:var(--ink)}
+.place{font-weight:700;font-size:1.5rem;margin:.5rem 0 .2rem !important}
+.link{display:inline-block;margin-top:.9rem;color:var(--pink-deep);font-weight:700;text-underline-offset:4px}
 
-footer{text-align:center;padding:2.5rem 1rem 3rem;background:var(--hill2)}
-footer .btn{font-weight:500;font-size:.95rem}
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:1rem;text-align:center}
+.count div{border-radius:18px;padding:.8rem .2rem;background:var(--bg);border:2px dashed var(--pink)}
+.count b{display:block;font-size:clamp(1.4rem,6.5vw,2rem);font-variant-numeric:tabular-nums;line-height:1.2;color:var(--pink-deep)}
+.count span{font-size:.8rem;color:var(--ink-soft)}
+.count.today{display:block;font-family:Pacifico,cursive;font-size:1.6rem;color:var(--pink-deep);border:0}
+
+.rsvp .btn{width:100%;margin-top:1.1rem}
+
+footer{text-align:center;padding:0 1rem 3rem}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 
 @media (prefers-reduced-motion: reduce){
-  .hint,.title,.cue{transition:none}
+  .bob,.gift.shake{animation:none}
+  .lid,.gift,.card,.kicker,.tip{transition-duration:.01s;transition-delay:0s}
 }
 </style>
 </head>
 <body>
+<canvas id="fx" aria-hidden="true"></canvas>
 
-<section class="hero" id="hero" aria-label="Лаа үлээх">
-  <canvas id="sky" aria-hidden="true"></canvas>
-
-  <div class="hint" id="hint">
-    <h1>Хүслээ бодоод, лаагаа үлээгээрэй</h1>
-    <p>Лааны гал дээгүүр хуруугаараа шудар, эсвэл дар</p>
-    <p class="left" id="left">5 лаа асаалттай</p>
+<section class="hero" id="hero">
+  <div class="stage">
+    <p class="kicker">Чамд нэг бэлэг ирлээ</p>
+    <button class="gift" id="gift" aria-label="Бэлгийг нээх">
+      <div class="bob">
+      <svg viewBox="0 0 240 250" aria-hidden="true">
+        <ellipse cx="120" cy="236" rx="92" ry="10" class="g-shadow"/>
+        <rect x="38" y="114" width="164" height="114" rx="12" class="g-box"/>
+        <circle cx="62" cy="140" r="5" class="g-dot"/><circle cx="86" cy="176" r="4" class="g-dot"/>
+        <circle cx="60" cy="204" r="4.5" class="g-dot"/><circle cx="160" cy="138" r="4" class="g-dot"/>
+        <circle cx="182" cy="172" r="5" class="g-dot"/><circle cx="156" cy="206" r="4" class="g-dot"/>
+        <rect x="108" y="114" width="24" height="114" class="g-rib"/>
+        <g class="lid">
+          <rect x="28" y="88" width="184" height="34" rx="9" class="g-lid"/>
+          <rect x="108" y="88" width="24" height="34" class="g-rib"/>
+          <g class="bow" id="bow">
+            <path d="M113 88 L92 128 L103 125 L108 135 L121 92Z" class="g-rib2"/>
+            <path d="M127 88 L148 128 L137 125 L132 135 L119 92Z" class="g-rib2"/>
+            <path d="M120 84 C96 44 48 54 64 82 C72 98 104 92 120 84Z" class="g-rib"/>
+            <path d="M120 84 C144 44 192 54 176 82 C168 98 136 92 120 84Z" class="g-rib"/>
+            <path d="M118 84 C100 62 76 64 80 78 C84 88 104 88 118 84Z" class="g-rib2"/>
+            <path d="M122 84 C140 62 164 64 160 78 C156 88 136 88 122 84Z" class="g-rib2"/>
+            <rect x="109" y="73" width="22" height="20" rx="8" class="g-rib"/>
+          </g>
+        </g>
+      </svg>
+      </div>
+    </button>
+    <p class="tip" id="tip">Бантан дээр нь 3 удаа дараарай</p>
   </div>
 
-  <div class="title" id="title" aria-live="polite">
-    <p class="wish">Хүслүүд чинь тэнгэрт од боллоо</p>
-    <p class="name" id="tName">Тэнгэр</p>
-    <p class="age"><b id="tAge">21</b> насны төрсөн өдөр</p>
-  </div>
-
-  <div class="cue"><button class="btn btn-gold" id="openBtn">Урилгаа нээх</button></div>
+  <article class="card" aria-live="polite">
+    <svg class="mini-bow" viewBox="40 40 160 100" aria-hidden="true">
+      <path d="M113 88 L92 128 L103 125 L108 135 L121 92Z" class="g-rib2"/>
+      <path d="M127 88 L148 128 L137 125 L132 135 L119 92Z" class="g-rib2"/>
+      <path d="M120 84 C96 44 48 54 64 82 C72 98 104 92 120 84Z" class="g-rib"/>
+      <path d="M120 84 C144 44 192 54 176 82 C168 98 136 92 120 84Z" class="g-rib"/>
+      <rect x="109" y="73" width="22" height="20" rx="8" class="g-rib"/>
+    </svg>
+    <p class="pre">Чамайг урьж байна</p>
+    <p class="name script" id="cName"></p>
+    <p class="age"><span class="num" id="cAge"></span>насны төрсөн өдөр</p>
+    <p class="msg" id="cMsg"></p>
+    <button class="btn btn-pink" id="more">Дэлгэрэнгүй үзэх</button>
+  </article>
 </section>
 
-<section class="invite" id="invite" hidden>
+<section class="details" id="details" hidden>
   <div class="wrap">
-    <h2>Чамайг урьж байна</h2>
-    <p class="lead" id="lead"></p>
-
-    <dl>
-      <dt>Хэзээ</dt><dd><span id="dDate"></span><small id="dTime"></small></dd>
-      <dt>Хаана</dt><dd><span id="dPlace"></span><small id="dAddr"></small><a id="dMap" target="_blank" rel="noopener">Газрын зураг нээх</a></dd>
-    </dl>
-
-    <div class="count" id="count" aria-label="Баяр хүртэл үлдсэн хугацаа">
-      <div><b id="cD">0</b><span>өдөр</span></div>
-      <div><b id="cH">0</b><span>цаг</span></div>
-      <div><b id="cM">0</b><span>минут</span></div>
-      <div><b id="cS">0</b><span>секунд</span></div>
+    <div class="panel">
+      <h2>Хэзээ вэ?</h2>
+      <p class="soft">Ягаан наалтыг хуруугаараа маажаад үзээрэй</p>
+      <div class="scratch" id="scratch">
+        <p class="date" id="dDate"></p>
+        <canvas id="foil" aria-label="Маажих наалт"></canvas>
+      </div>
     </div>
 
-    <div class="rsvp">
-      <h3>Ирэх үү?</h3>
-      <div class="row">
-        <a class="btn btn-gold" id="igBtn" target="_blank" rel="noopener">Instagram-аар хариу бичих</a>
+    <div class="panel">
+      <h2>Хаана вэ?</h2>
+      <p class="place" id="dPlace"></p>
+      <p class="soft">Хоцорвол бялуу дуусчихна шүү 🍰</p>
+      <a class="link" id="dMap" target="_blank" rel="noopener">Газрын зураг нээх</a>
+    </div>
+
+    <div class="panel">
+      <h2>Баяр хүртэл</h2>
+      <div class="count" id="count">
+        <div><b id="cD">0</b><span>өдөр</span></div>
+        <div><b id="cH">0</b><span>цаг</span></div>
+        <div><b id="cM">0</b><span>минут</span></div>
+        <div><b id="cS">0</b><span>секунд</span></div>
       </div>
-      <p>Instagram: <a id="igName" target="_blank" rel="noopener"></a></p>
+    </div>
+
+    <div class="panel rsvp">
+      <h2>Ирэх үү?</h2>
+      <p class="soft">Ирэх эсэхээ Instagram-аар хэлээрэй, хүлээж байна 💌</p>
+      <a class="btn btn-pink" id="igBtn" target="_blank" rel="noopener"></a>
     </div>
   </div>
 </section>
 
 <footer>
-  <button class="btn btn-ghost" id="replay">Лаагаа дахин асаах</button>
+  <button class="btn btn-soft" id="replay">Бэлгийг дахин боох 🎀</button>
 </footer>
 
 <script>
-/* ===== Энд мэдээллээ өөрчилнө ===== */
+/* ===== Мэдээлэл ===== */
 const CONFIG = {
-  name: "xvtchv_1",
+  name: "Чойлзгон",
+  nameOf: "Чойлзгоны",
   age: 17,
   date: "2026-10-24T00:00:00+08:00",
-  dateText: "10 сарын 24, Бямба гариг",
-  timeText: "",
-  place: "Encanto",
-  address: "Улаанбаатар",
+  day: "10 сарын 24",
+  weekday: "Бямба гариг",
+  place: "Encanto Town",
   ig: "xvtchv_1"
 };
 
-/* ===== Текст бөглөх ===== */
 const $ = id => document.getElementById(id);
-$('tName').textContent = CONFIG.name;
-$('tAge').textContent = CONFIG.age;
-$('lead').textContent = `Миний ${CONFIG.age} насны төрсөн өдрийг хамт тэмдэглэе. Ирээд жинхэнэ лааг минь хамт үлээлцээрэй.`;
-$('dDate').textContent = CONFIG.dateText;
-$('dTime').textContent = CONFIG.timeText;
+$('cName').textContent = CONFIG.name;
+$('cAge').textContent = CONFIG.age;
+$('cMsg').textContent = `${CONFIG.place}-д болох ${CONFIG.nameOf} төрсөн өдөрт ирэхийг урьж байна. Чамгүйгээр баяр дутуу шүү 💗`;
+$('dDate').innerHTML = '';
+const b = document.createElement('b'); b.textContent = CONFIG.day;
+$('dDate').append(b, CONFIG.weekday);
 $('dPlace').textContent = CONFIG.place;
-$('dAddr').textContent = CONFIG.address;
-$('dMap').href = 'https://maps.google.com/?q=' + encodeURIComponent(CONFIG.place + ' ' + CONFIG.address);
-const igUrl = 'https://instagram.com/' + CONFIG.ig;
-$('igBtn').href = igUrl;
-$('igName').href = igUrl;
-$('igName').textContent = '@' + CONFIG.ig;
+$('dMap').href = 'https://maps.google.com/?q=' + encodeURIComponent(CONFIG.place + ' Ulaanbaatar');
+$('igBtn').href = 'https://instagram.com/' + CONFIG.ig;
+$('igBtn').textContent = '@' + CONFIG.ig + ' руу бичих';
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css = k => getComputedStyle(document.documentElement).getPropertyValue('--'+k).trim();
 
 /* ===== Тооллого ===== */
 function tick(){
-  const diff = new Date(CONFIG.date) - Date.now();
-  const box = $('count');
-  if (diff <= 0){ box.className = 'count today'; box.textContent = 'Өнөөдөр баярлая!'; return; }
+  const diff = new Date(CONFIG.date) - Date.now(), box = $('count');
+  if (diff <= 0){ box.className = 'count today'; box.textContent = 'Өнөөдөр баярлая! 🎉'; return; }
   const s = Math.floor(diff/1000);
   $('cD').textContent = Math.floor(s/86400);
   $('cH').textContent = Math.floor(s%86400/3600);
@@ -188,260 +252,121 @@ function tick(){
 }
 tick(); setInterval(tick, 1000);
 
-/* ===== Тэнгэр, бялуу, лаа ===== */
-const hero = $('hero'), cv = $('sky'), ctx = cv.getContext('2d');
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const N = 5;
-const TPOS = [[.15,.19],[.31,.11],[.5,.17],[.68,.09],[.85,.16]];
-let W, H, C = {}, cake = {}, bg = [];
-let candles = Array.from({length:N}, () => ({lit:true, lean:0, x:0, y:0}));
-let targets = Array.from({length:N}, () => ({lit:false, at:0, x:0, y:0}));
-let sparks = [], smoke = [], bits = [];
-let arrived = 0, linkAt = 0, done = false;
-
-function readColors(){
-  const s = getComputedStyle(document.documentElement);
-  ['hill1','hill2','ger','glow','cake','frost','stripe'].forEach(k => C[k] = s.getPropertyValue('--'+k).trim());
+/* ===== Конфетти ===== */
+const fx = $('fx'), fctx = fx.getContext('2d');
+let parts = [], running = false;
+function sizeFx(){ const d = Math.min(devicePixelRatio||1, 2); fx.width = innerWidth*d; fx.height = innerHeight*d; fctx.setTransform(d,0,0,d,0,0); }
+sizeFx(); addEventListener('resize', sizeFx);
+function heart(c, s){
+  c.beginPath(); c.moveTo(0, s*.3 - s/2);
+  c.bezierCurveTo(0, -s/2, -s*.5, -s/2, -s*.5, s*.3 - s/2);
+  c.bezierCurveTo(-s*.5, s*.6 - s/2, 0, s*.8 - s/2, 0, s/2);
+  c.bezierCurveTo(0, s*.8 - s/2, s*.5, s*.6 - s/2, s*.5, s*.3 - s/2);
+  c.bezierCurveTo(s*.5, -s/2, 0, -s/2, 0, s*.3 - s/2); c.fill();
 }
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', readColors);
-
-function backY(x){ return H*.75 + Math.sin(x/W*3.2+.6)*H*.035 + Math.sin(x/W*7.1)*H*.012; }
-function frontY(x){ return H*.85 + Math.sin(x/W*2.4+2)*H*.028; }
-
-function layout(){
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const r = cv.getBoundingClientRect(); W = r.width; H = r.height;
-  cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-  bg = Array.from({length: Math.round(W*H/4200)}, () => ({
-    x: Math.random()*W, y: Math.random()*H*.66, r: Math.random()*1.1+.3,
-    p: Math.random()*6.28, s: .4+Math.random()*1.4 }));
-  const cw = Math.min(300, W*.72);
-  cake = { cx: W/2, base: Math.min(H*.93, frontY(W/2)+H*.07), w2: cw, h2: cw*.32, w1: cw*.72, h1: cw*.26, ch: cw*.17, cwid: Math.max(8, cw*.034) };
-  cake.top = cake.base - cake.h2 - cake.h1;
-  candles.forEach((c,i) => {
-    c.x = cake.cx - cake.w1*.38 + i*(cake.w1*.76/(N-1));
-    c.y = cake.top - cake.ch;        // лааны орой
-  });
-  targets.forEach((t,i) => { t.x = TPOS[i][0]*W; t.y = TPOS[i][1]*H + 20; });
-  readColors();
-}
-addEventListener('resize', layout);
-
-function rrect(x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
-}
-
-function drawBg(t){
-  for (const s of bg){
-    const a = reduce ? .7 : .35 + .45*Math.abs(Math.sin(t*.0012*s.s + s.p));
-    ctx.fillStyle = `rgba(255,250,235,${a})`;
-    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+function burst(x, y, n){
+  if (reduce) n = Math.round(n/4);
+  const cols = ['#ff5c93','#ff9fbf','#e8335a','#ffffff','#ffd1e0','#ffc86b'];
+  for (let i=0;i<n;i++){
+    const a = -Math.PI/2 + (Math.random()-.5)*Math.PI*1.3, v = 4 + Math.random()*8;
+    parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v, r:Math.random()*6.28, vr:(Math.random()-.5)*.3,
+      s:7+Math.random()*9, c:cols[i%cols.length], k:i%3, life:1});
   }
+  if (!running){ running = true; requestAnimationFrame(loop); }
 }
-
-function drawHills(){
-  ctx.fillStyle = C.hill1; ctx.beginPath(); ctx.moveTo(0,H);
-  for (let x=0; x<=W+8; x+=8) ctx.lineTo(x, backY(x));
-  ctx.lineTo(W,H); ctx.fill();
-
-  // Гэр
-  const gx = W*.14, gy = backY(gx)+3, s = Math.max(16, Math.min(W,H)*.045);
-  ctx.fillStyle = C.ger;
-  ctx.fillRect(gx-s, gy-s*.55, s*2, s*.55);
-  ctx.beginPath(); ctx.moveTo(gx-s*1.1, gy-s*.52); ctx.lineTo(gx-s*.14, gy-s*1.02);
-  ctx.lineTo(gx+s*.14, gy-s*1.02); ctx.lineTo(gx+s*1.1, gy-s*.52); ctx.closePath(); ctx.fill();
-  const dg = ctx.createRadialGradient(gx, gy-s*.2, 0, gx, gy-s*.2, s*1.4);
-  dg.addColorStop(0,'rgba(255,207,90,.35)'); dg.addColorStop(1,'rgba(255,207,90,0)');
-  ctx.fillStyle = dg; ctx.fillRect(gx-s*1.5, gy-s*1.6, s*3, s*2);
-  ctx.fillStyle = C.glow; ctx.fillRect(gx-s*.13, gy-s*.42, s*.26, s*.42);
-
-  ctx.fillStyle = C.hill2; ctx.beginPath(); ctx.moveTo(0,H);
-  for (let x=0; x<=W+8; x+=8) ctx.lineTo(x, frontY(x));
-  ctx.lineTo(W,H); ctx.fill();
-}
-
-function drip(x, y, w, h){
-  ctx.beginPath(); ctx.moveTo(x, y);
-  ctx.lineTo(x+w, y); ctx.lineTo(x+w, y+h*.55);
-  const n = 7, step = w/n;
-  for (let i=n; i>0; i--){
-    const x0 = x + i*step, x1 = x + (i-1)*step, d = (i%2 ? h : h*.6);
-    ctx.quadraticCurveTo((x0+x1)/2, y+d+h*.35, x1, y+h*.55);
+function loop(){
+  fctx.clearRect(0,0,innerWidth,innerHeight);
+  parts = parts.filter(p => p.life > 0 && p.y < innerHeight + 40);
+  for (const p of parts){
+    p.vy += .22; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= .006;
+    fctx.save(); fctx.translate(p.x, p.y); fctx.rotate(p.r); fctx.globalAlpha = Math.min(1, p.life*2); fctx.fillStyle = p.c;
+    if (p.k === 0) heart(fctx, p.s);
+    else if (p.k === 1){ fctx.beginPath(); fctx.arc(0,0,p.s*.32,0,6.283); fctx.fill(); }
+    else fctx.fillRect(-p.s*.4, -p.s*.15, p.s*.8, p.s*.3);
+    fctx.restore();
   }
-  ctx.closePath(); ctx.fillStyle = C.frost; ctx.fill();
+  if (parts.length) requestAnimationFrame(loop); else running = false;
 }
 
-function drawCake(){
-  const {cx, base, w1, h1, w2, h2, top} = cake;
-  ctx.fillStyle = 'rgba(0,0,0,.25)';
-  ctx.beginPath(); ctx.ellipse(cx, base+4, w2*.62, h2*.12, 0, 0, 6.283); ctx.fill();
-  ctx.fillStyle = 'rgba(240,236,255,.85)';
-  ctx.beginPath(); ctx.ellipse(cx, base, w2*.58, h2*.1, 0, 0, 6.283); ctx.fill();
-
-  rrect(cx-w2/2, base-h2, w2, h2, 10); ctx.fillStyle = C.cake; ctx.fill();
-  ctx.fillStyle = C.stripe; ctx.fillRect(cx-w2/2, base-h2*.32, w2, h2*.08);
-  drip(cx-w2/2, base-h2, w2, h2*.32);
-
-  rrect(cx-w1/2, top, w1, h1, 9); ctx.fillStyle = C.cake; ctx.fill();
-  ctx.fillStyle = C.stripe;
-  for (let i=0;i<9;i++){ ctx.beginPath(); ctx.arc(cx-w1*.42+i*w1*.105, top+h1*.68, Math.max(2,w1*.018), 0, 6.283); ctx.fill(); }
-  drip(cx-w1/2, top, w1, h1*.32);
-}
-
-function drawCandles(t){
-  const {ch, cwid, top} = cake;
-  candles.forEach((c,i) => {
-    rrect(c.x-cwid/2, c.y, cwid, ch, 3); ctx.fillStyle = '#fffaf4'; ctx.fill();
-    ctx.save(); ctx.clip();
-    ctx.strokeStyle = C.stripe; ctx.lineWidth = cwid*.35;
-    for (let k=-1;k<5;k++){ ctx.beginPath(); ctx.moveTo(c.x-cwid, c.y+k*ch/4); ctx.lineTo(c.x+cwid, c.y+k*ch/4+cwid*1.2); ctx.stroke(); }
-    ctx.restore();
-    ctx.strokeStyle = '#3a2b2b'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(c.x, c.y-5); ctx.stroke();
-
-    c.lean *= .9;
-    if (!c.lit) return;
-    const f = reduce ? 1 : 1 + .08*Math.sin(t*.02+i) + .05*Math.sin(t*.037+i*2);
-    const fh = ch*.62*f, bx = c.x, by = c.y-3, tx = bx + c.lean*fh, ty = by - fh;
-    const g = ctx.createRadialGradient(bx, by-fh*.4, 0, bx, by-fh*.4, fh*2.4);
-    g.addColorStop(0,'rgba(255,200,90,.45)'); g.addColorStop(1,'rgba(255,200,90,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by-fh*.4, fh*2.4, 0, 6.283); ctx.fill();
-    const fg = ctx.createLinearGradient(bx, by, tx, ty);
-    fg.addColorStop(0,'#ff7a2e'); fg.addColorStop(.35,'#ffb43d'); fg.addColorStop(1,'#fff6c8');
-    const w = fh*.32;
-    ctx.beginPath(); ctx.moveTo(bx, by);
-    ctx.bezierCurveTo(bx-w*1.4, by-fh*.15, bx-w*.6+(tx-bx)*.5, ty+fh*.35, tx, ty);
-    ctx.bezierCurveTo(bx+w*.6+(tx-bx)*.5, ty+fh*.35, bx+w*1.4, by-fh*.15, bx, by);
-    ctx.fillStyle = fg; ctx.fill();
-  });
-}
-
-function star(x, y, r, a){
-  ctx.save(); ctx.globalAlpha = a;
-  const g = ctx.createRadialGradient(x,y,0,x,y,r*4);
-  g.addColorStop(0,'rgba(255,215,120,.6)'); g.addColorStop(1,'rgba(255,215,120,0)');
-  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r*4,0,6.283); ctx.fill();
-  ctx.fillStyle = '#fff7da'; ctx.beginPath();
-  for (let k=0;k<8;k++){
-    const ang = k*Math.PI/4, rr = k%2 ? r*.38 : r*1.6;
-    ctx.lineTo(x+Math.cos(ang)*rr, y+Math.sin(ang)*rr);
+/* ===== Бэлэг нээх ===== */
+const hero = $('hero'), gift = $('gift'), bow = $('bow'), tip = $('tip');
+let taps = 0;
+gift.addEventListener('click', () => {
+  if (hero.classList.contains('open')) return;
+  taps++;
+  bow.style.setProperty('--loose', taps);
+  navigator.vibrate?.(20);
+  if (taps < 3){
+    gift.classList.remove('shake'); void gift.offsetWidth; gift.classList.add('shake');
+    tip.textContent = taps === 1 ? 'Дахиад 2 удаа 🎀' : 'Дахиад ганцхан удаа!';
+    return;
   }
-  ctx.closePath(); ctx.fill(); ctx.restore();
-}
+  hero.classList.add('open');
+  const r = gift.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height*.35, 110);
+  $('details').hidden = false;
+  setTimeout(initFoil, 50);
+});
+$('more').addEventListener('click', () => $('details').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
 
-function drawTargets(t){
-  targets.forEach((s,i) => {
-    if (!s.lit){
-      ctx.strokeStyle = 'rgba(255,240,210,.22)'; ctx.setLineDash([2,4]); ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(s.x, s.y, 7, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
-      return;
-    }
-    const age = t - s.at, grow = reduce ? 1 : Math.min(1, age/500);
-    const pulse = reduce ? 1 : 1 + .12*Math.sin(t*.004+i);
-    star(s.x, s.y, 6*grow*pulse, 1);
-  });
-  if (linkAt){
-    const p = reduce ? 1 : Math.min(1, (t-linkAt)/1600);
-    ctx.strokeStyle = 'rgba(255,230,170,.65)'; ctx.lineWidth = 1.3;
-    for (let k=0;k<N-1;k++){
-      const lp = Math.max(0, Math.min(1, p*(N-1)-k)); if (!lp) continue;
-      const a = targets[k], b = targets[k+1];
-      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(a.x+(b.x-a.x)*lp, a.y+(b.y-a.y)*lp); ctx.stroke();
-    }
-    if (p >= 1 && !done) finish();
+/* ===== Маажих наалт ===== */
+const foil = $('foil'), sctx = foil.getContext('2d');
+let revealed = false, scratching = false, lastP = null, moves = 0;
+function initFoil(){
+  const r = foil.getBoundingClientRect(); if (!r.width) return;
+  const d = Math.min(devicePixelRatio||1, 2);
+  foil.width = r.width*d; foil.height = r.height*d; sctx.setTransform(d,0,0,d,0,0);
+  sctx.globalCompositeOperation = 'source-over';
+  const g = sctx.createLinearGradient(0,0,r.width,r.height);
+  g.addColorStop(0, css('foil1')); g.addColorStop(.5, css('foil2')); g.addColorStop(1, css('foil1'));
+  sctx.fillStyle = g; sctx.fillRect(0,0,r.width,r.height);
+  sctx.fillStyle = 'rgba(255,255,255,.55)';
+  for (let y=14; y<r.height; y+=30) for (let x=(y/30%2)*18+12; x<r.width; x+=36){
+    sctx.save(); sctx.translate(x,y); heart(sctx, 9); sctx.restore();
   }
+  sctx.fillStyle = css('ink'); sctx.globalAlpha = .75;
+  sctx.font = '700 18px Comfortaa, system-ui, sans-serif'; sctx.textAlign = 'center'; sctx.textBaseline = 'middle';
+  sctx.fillText('Энд маажаарай ♡', r.width/2, r.height/2);
+  sctx.globalAlpha = 1;
+  foil.style.opacity = 1; revealed = false;
 }
+document.fonts?.ready.then(() => { if (!$('details').hidden && !revealed) initFoil(); });
+addEventListener('resize', () => { if (!$('details').hidden && !revealed) initFoil(); });
 
-function drawFx(t){
-  smoke = smoke.filter(p => p.life > 0);
-  for (const p of smoke){
-    p.x += p.vx; p.y += p.vy; p.r += .25; p.life -= .012; p.vx += Math.sin(t*.003+p.y*.05)*.02;
-    ctx.fillStyle = `rgba(225,220,240,${p.life*.28})`;
-    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
-  }
-  bits = bits.filter(b => b.life > 0);
-  for (const b of bits){
-    b.x += b.vx; b.y += b.vy; b.vy += .03; b.life -= .02;
-    ctx.fillStyle = `rgba(255,215,120,${b.life})`;
-    ctx.beginPath(); ctx.arc(b.x, b.y, 1.6, 0, 6.283); ctx.fill();
-  }
-  sparks = sparks.filter(s => !s.dead);
-  for (const s of sparks){
-    const raw = reduce ? 1 : Math.min(1, (t - s.t0)/1500);
-    const p = 1 - Math.pow(1-raw, 3);
-    const tg = targets[s.i];
-    const cx = s.x0 + (tg.x - s.x0)*.15 + Math.sin(s.i*2.3)*W*.08, cy = (s.y0 + tg.y)/2;
-    const x = (1-p)*(1-p)*s.x0 + 2*(1-p)*p*cx + p*p*tg.x;
-    const y = (1-p)*(1-p)*s.y0 + 2*(1-p)*p*cy + p*p*tg.y;
-    s.trail.push([x,y]); if (s.trail.length > 18) s.trail.shift();
-    s.trail.forEach(([tx,ty],k) => {
-      ctx.fillStyle = `rgba(255,220,140,${k/s.trail.length*.6})`;
-      ctx.beginPath(); ctx.arc(tx, ty, 1+k/s.trail.length*2, 0, 6.283); ctx.fill();
-    });
-    star(x, y, 3.5, 1);
-    if (raw >= 1){
-      s.dead = true; tg.lit = true; tg.at = t; arrived++;
-      for (let k=0;k<16;k++){ const a = Math.random()*6.283, v = 1+Math.random()*2; bits.push({x:tg.x,y:tg.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:1}); }
-      if (arrived === N) linkAt = t + 300;
-    }
-  }
+function pt(e){ const r = foil.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+function scratchAt(x, y){
+  sctx.globalCompositeOperation = 'destination-out';
+  sctx.lineCap = 'round'; sctx.lineWidth = 44;
+  sctx.beginPath();
+  if (lastP){ sctx.moveTo(lastP[0], lastP[1]); sctx.lineTo(x, y); sctx.stroke(); }
+  sctx.arc(x, y, 22, 0, 6.283); sctx.fill();
+  lastP = [x, y];
+  if (++moves % 6 === 0) check();
 }
+function check(){
+  const {width:w, height:h} = foil; const data = sctx.getImageData(0,0,w,h).data;
+  let clear = 0, total = 0;
+  for (let i=3; i<data.length; i+=64){ total++; if (data[i] < 40) clear++; }
+  if (clear/total > .45) reveal();
+}
+function reveal(){
+  if (revealed) return; revealed = true;
+  foil.style.opacity = 0;
+  const r = foil.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 60);
+  navigator.vibrate?.([20,40,20]);
+}
+foil.addEventListener('pointerdown', e => { if (revealed) return; scratching = true; lastP = null; foil.setPointerCapture(e.pointerId); scratchAt(...pt(e)); });
+foil.addEventListener('pointermove', e => { if (scratching && !revealed) scratchAt(...pt(e)); });
+['pointerup','pointercancel'].forEach(t => foil.addEventListener(t, () => { scratching = false; lastP = null; if (!revealed) check(); }));
 
-function frame(t){
-  ctx.clearRect(0,0,W,H);
-  drawBg(t); drawTargets(t); drawHills(); drawCake(); drawCandles(t); drawFx(t);
-  requestAnimationFrame(frame);
-}
-
-/* ===== Үлээх ===== */
-function remaining(){ return candles.filter(c => c.lit).length; }
-function blow(i){
-  const c = candles[i]; if (!c.lit) return;
-  c.lit = false;
-  const fy = c.y - cake.ch*.3;
-  for (let k=0;k<14;k++) smoke.push({x:c.x, y:fy, vx:(Math.random()-.5)*.6, vy:-.6-Math.random()*.8, r:2+Math.random()*3, life:1});
-  sparks.push({i, x0:c.x, y0:fy, t0:performance.now(), trail:[]});
-  navigator.vibrate?.(25);
-  const n = remaining();
-  $('left').textContent = n ? `${n} лаа үлдлээ` : 'Харж бай...';
-}
-let last = null;
-function local(e){ const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
-function near(x, y, tap){
-  const R = Math.max(30, cake.ch*.9);
-  candles.forEach((c,i) => {
-    if (!c.lit) return;
-    const fx = c.x, fy = c.y - cake.ch*.35, d = Math.hypot(x-fx, y-fy);
-    if (last && d < R*2.4){ c.lean = Math.max(-1.2, Math.min(1.2, c.lean + (x-last.x)*.03)); }
-    const speed = last ? Math.hypot(x-last.x, y-last.y) / Math.max(1, performance.now()-last.t) : 0;
-    if (d < R && (tap || speed > .35)) blow(i);
-  });
-}
-hero.addEventListener('pointerdown', e => { if (done) return; const [x,y] = local(e); last = null; near(x,y,true); last = {x,y,t:performance.now()}; });
-hero.addEventListener('pointermove', e => { if (done) return; const [x,y] = local(e); near(x,y,false); last = {x,y,t:performance.now()}; });
-hero.addEventListener('pointerleave', () => last = null);
-
-function finish(){
-  done = true;
-  hero.classList.add('done');
-  $('invite').hidden = false;
-}
-$('openBtn').addEventListener('click', () => $('invite').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
+/* ===== Дахин боох ===== */
 $('replay').addEventListener('click', () => {
-  candles.forEach(c => { c.lit = true; c.lean = 0; });
-  targets.forEach(s => s.lit = false);
-  sparks = []; arrived = 0; linkAt = 0; done = false;
-  hero.classList.remove('done');
-  $('left').textContent = `${N} лаа асаалттай`;
+  hero.classList.remove('open'); taps = 0; bow.style.setProperty('--loose', 0);
+  tip.textContent = 'Бантан дээр нь 3 удаа дараарай';
+  initFoil();
   scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
 });
-
-layout();
-requestAnimationFrame(frame);
 </script>
 </body>
 </html>

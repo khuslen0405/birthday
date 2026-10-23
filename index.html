@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Чойн төрсөн өдөр 🎀</title>
+<title>Kisu-гийн төрсөн өдөр 🎀</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
@@ -121,6 +121,31 @@ body{margin:0;color:var(--ink);font-family:Comfortaa,system-ui,-apple-system,"Se
 .rsvp .btn{width:100%;margin-top:1.1rem}
 footer{text-align:center;padding:0 1rem 3rem}
 footer p{color:var(--ink-soft);font-size:.9rem;margin:.9rem 0 0}
+.bubbles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:1.1rem}
+.bub{aspect-ratio:1;border-radius:50%;border:0;padding:0;cursor:pointer;font-size:1.4rem;-webkit-tap-highlight-color:transparent;
+  background:radial-gradient(circle at 32% 30%,#fff 0 10%,rgba(255,255,255,.45) 11% 26%,transparent 27%),radial-gradient(circle at 50% 60%,var(--foil2),var(--pink));
+  box-shadow:inset -3px -4px 0 rgba(200,60,110,.18),0 3px 6px rgba(200,60,110,.15);transition:transform .15s}
+.bub:active{transform:scale(.9)}
+.bub.pop{background:var(--bg);box-shadow:inset 0 2px 5px rgba(200,60,110,.25);transform:scale(.8);animation:popit .25s ease;cursor:default}
+@keyframes popit{0%{transform:scale(1.2)}100%{transform:scale(.8)}}
+.reveal-box{margin-top:1rem !important;padding:1rem;border-radius:18px;background:var(--bg);border:2px dashed var(--pink);text-align:center;font-weight:700;animation:popin .6s cubic-bezier(.3,1.8,.5,1)}
+.reveal-box[hidden]{display:none}
+@keyframes popin{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+.cookie{position:relative;display:block;width:160px;height:130px;margin:1.2rem auto 0;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cookie.shake{animation:shake .4s ease}
+.half{position:absolute;inset:0;font-size:110px;line-height:130px;text-align:center;transition:transform .6s cubic-bezier(.3,1.5,.5,1)}
+.half.l{clip-path:inset(0 50% 0 0)} .half.r{clip-path:inset(0 0 0 50%)}
+.cookie.open .half.l{transform:translate(-40px,10px) rotate(-28deg)}
+.cookie.open .half.r{transform:translate(40px,10px) rotate(28deg)}
+.slip{margin:.2rem auto 0 !important;max-width:22rem;min-height:3rem;background:#fff;color:#7a1d45;padding:.8rem 1rem;border-radius:6px;font-weight:700;font-size:.95rem;text-align:center;
+  box-shadow:0 4px 14px rgba(200,60,110,.2);transform:scaleX(0);transition:transform .5s cubic-bezier(.3,1.5,.5,1) .2s}
+.cookie.open + .slip{transform:scaleX(1)}
+.hold{position:relative;display:grid;place-items:center;width:140px;height:140px;margin:1.3rem auto .4rem;border:0;padding:0;border-radius:50%;cursor:pointer;
+  background:conic-gradient(var(--pink-deep) calc(var(--p,0)*360deg),var(--bg) 0);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.hold::before{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--card)}
+.hold span{position:relative;font-size:58px;line-height:1;transform:scale(calc(1 + var(--p,0)*.4))}
+.hold.full span{animation:beat .9s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1.4)}50%{transform:scale(1.6)}}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 @media (prefers-reduced-motion: reduce){
   .bob,.gift.shake,.kicker,.num,.fl,.rays,.tw,.spk{animation:none}
@@ -213,6 +238,20 @@ footer p{color:var(--ink-soft);font-size:.9rem;margin:.9rem 0 0}
     </div>
     <div class="panel">
       <span class="tape" aria-hidden="true"></span>
+      <h2>Хөөс хагал 🫧</h2>
+      <p class="soft">Нэг хөөсөн дотор нууц захидал нуугдсан байгаа</p>
+      <div class="bubbles" id="bubbles"></div>
+      <p class="reveal-box" id="secret" hidden>💌 Нууц: Бэлэг авчрах албагүй, чи л ирээд өг 💗</p>
+    </div>
+    <div class="panel">
+      <span class="tape" aria-hidden="true"></span>
+      <h2>Азын жигнэмэг 🥠</h2>
+      <p class="soft" id="cTip">Жигнэмэг дээр дараад азаа үзээрэй</p>
+      <button class="cookie" id="cookie" aria-label="Азын жигнэмэг хагалах"><span class="half l" aria-hidden="true">🥠</span><span class="half r" aria-hidden="true">🥠</span></button>
+      <p class="slip" id="slip" aria-live="polite"></p>
+    </div>
+    <div class="panel">
+      <span class="tape" aria-hidden="true"></span>
       <h2>Баяр хүртэл ⏳</h2>
       <div class="count" id="count">
         <div><b id="cD">0</b><span>өдөр</span></div>
@@ -224,7 +263,8 @@ footer p{color:var(--ink-soft);font-size:.9rem;margin:.9rem 0 0}
     <div class="panel rsvp">
       <span class="tape" aria-hidden="true"></span>
       <h2>Ирэх үү? 💌</h2>
-      <p class="soft">Ирэх эсэхээ Instagram-аар хэлээрэй, хүлээж байна</p>
+      <p class="soft" id="hTip">Ирэх бол зүрхийг дараад барьж байгаарай</p>
+      <button class="hold" id="hold" aria-label="Ирнэ гэж зүрхийг дараад барих"><span aria-hidden="true">💗</span></button>
       <a class="btn btn-pink" id="igBtn" target="_blank" rel="noopener"></a>
     </div>
   </div>
@@ -237,8 +277,8 @@ footer p{color:var(--ink-soft);font-size:.9rem;margin:.9rem 0 0}
 
 <script>
 const CONFIG = {
-  name: "Чой",
-  nameOf: "Чойн",
+  name: "Kisu",
+  nameOf: "Kisu-гийн",
   age: 17,
   date: "2026-10-24T00:00:00+08:00",
   day: "10 сарын 24",
@@ -413,10 +453,82 @@ foil.addEventListener('pointerdown', e => { if (revealed) return; scratching = t
 foil.addEventListener('pointermove', e => { if (scratching && !revealed) scratchAt(...pt(e)); });
 ['pointerup','pointercancel'].forEach(t => foil.addEventListener(t, () => { scratching = false; lastP = null; if (!revealed) check(); }));
 
+const bubWrap = $('bubbles');
+function buildBubbles(){
+  bubWrap.innerHTML = ''; $('secret').hidden = true;
+  const secret = Math.floor(Math.random()*20);
+  for (let i=0;i<20;i++){
+    const bb = document.createElement('button'); bb.className = 'bub'; bb.setAttribute('aria-label','Хөөс хагалах');
+    bb.addEventListener('click', () => {
+      if (bb.classList.contains('pop')) return;
+      bb.classList.add('pop'); navigator.vibrate?.(8);
+      const r = bb.getBoundingClientRect(), x = r.left + r.width/2, y = r.top + r.height/2;
+      if (i === secret){
+        bb.textContent = '💌'; $('secret').hidden = false;
+        burst(x, y, 60); floatHearts(x, y, 6); navigator.vibrate?.([20,40,20]);
+      } else burst(x, y, 5, {spread:6.28, sp:[1,3], kinds:[1,3], g:.1, size:[5,9], decay:.03});
+    });
+    bubWrap.append(bb);
+  }
+}
+buildBubbles();
+
+const FORTUNES = [
+  'Энэ бямба чиний хамгийн хөгжилтэй өдөр болно 🎉',
+  'Бялууны хамгийн том хэсэг чамд оногдоно 🍰',
+  'Энэ долоо хоногт чамд сайхан мэдээ ирнэ 💌',
+  'Чи үдэшлэгийн хамгийн гоё бүжигчин болно 💃',
+  'Хамгийн гоё зураг чинь энэ бямбад авахуулна 📸',
+  'Чамайг харсан хүн бүр инээмсэглэнэ 😊',
+  `${CONFIG.name} чамайг их хүлээж байна 💗`
+];
+const cookie = $('cookie'); let lastF = -1, cBusy = false;
+function crack(){
+  cookie.classList.remove('shake'); void cookie.offsetWidth; cookie.classList.add('shake');
+  setTimeout(() => {
+    let f; do { f = Math.floor(Math.random()*FORTUNES.length); } while (f === lastF); lastF = f;
+    $('slip').textContent = FORTUNES[f];
+    cookie.classList.add('open'); cBusy = false;
+    const r = cookie.getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height/2, 14, {spread:2.5, sp:[2,5], kinds:[1], size:[5,9], decay:.02});
+    $('cTip').textContent = 'Дахиад дараад өөр азаа үзээрэй';
+  }, 400);
+}
+cookie.addEventListener('click', () => {
+  if (cBusy) return; cBusy = true;
+  if (cookie.classList.contains('open')){ cookie.classList.remove('open'); setTimeout(crack, 500); }
+  else crack();
+});
+
+const hold = $('hold'); let hp = 0, holding = false, holdDone = false, hraf = null;
+function hstep(){
+  if (holdDone){ hraf = null; return; }
+  hp = Math.max(0, Math.min(1, hp + (holding ? .013 : -.035)));
+  hold.style.setProperty('--p', hp);
+  if (hp >= 1){ finishHold(); hraf = null; return; }
+  hraf = (holding || hp > 0) ? requestAnimationFrame(hstep) : null;
+}
+function finishHold(){
+  holdDone = true; holding = false; hold.classList.add('full');
+  const r = hold.getBoundingClientRect(), x = r.left + r.width/2, y = r.top + r.height/2;
+  burst(x, y, 120); floatHearts(x, y, 10); navigator.vibrate?.([30,50,30,50,60]);
+  $('hTip').textContent = 'Яйй! 🎉 Ирнэ гэдгээ доорх товчоор Instagram-аар хэлээд өгөөрэй';
+}
+function startHold(){ if (holdDone) return; holding = true; navigator.vibrate?.(10); if (!hraf) hraf = requestAnimationFrame(hstep); }
+hold.addEventListener('pointerdown', e => { hold.setPointerCapture(e.pointerId); startHold(); });
+['pointerup','pointercancel','lostpointercapture'].forEach(t => hold.addEventListener(t, () => holding = false));
+hold.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); startHold(); } });
+hold.addEventListener('keyup', () => holding = false);
+hold.addEventListener('contextmenu', e => e.preventDefault());
+
 $('replay').addEventListener('click', () => {
   hero.classList.remove('open'); taps = 0; bow.style.setProperty('--loose', 0);
   tip.textContent = 'Бэлэг дээр 3 удаа дараарай';
   initFoil();
+  buildBubbles();
+  cookie.classList.remove('open'); $('slip').textContent = ''; $('cTip').textContent = 'Жигнэмэг дээр дараад азаа үзээрэй';
+  holdDone = false; hp = 0; hold.style.setProperty('--p', 0); hold.classList.remove('full');
+  $('hTip').textContent = 'Ирэх бол зүрхийг дараад барьж байгаарай';
   scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
 });
 </script>
